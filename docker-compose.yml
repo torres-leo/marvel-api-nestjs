@@ -30,11 +30,19 @@ services:
       - .:/app/
       - /app/node_modules
     # command: >
-    #   sh -c "yarn && yarn migration:run && yarn seed:run && yarn start:dev"
-  adminer:
-    image: adminer
-    restart: always
+    #   sh -c "yarn && yarn migration:run && yarn seed:run && yarn start"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    env_file:
+      - .env
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
     ports:
       - 80:80
+    depends_on:
+      - mysql
 volumes:
   mysqldata: {}

@@ -1,22 +1,15 @@
-// import {
-//   TypeOrmModuleOptions,
-//   TypeOrmModuleAsyncOptions,
-// } from '@nestjs/typeorm';
-// import { ConfigModule, ConfigService } from '@nestjs/config';
-// import 'dotenv';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import 'dotenv';
+import { User } from 'src/database/models/user.entity';
 
-// export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
-//   imports: [ConfigModule.forRoot()],
-//   inject: [ConfigService],
-// };
-
-// export const typeOrmConfig: TypeOrmModuleOptions = {
-//   type: 'mysql',
-//   host: 'localhost',
-//   port: 3306,
-//   username: 'root',
-//   password: 'root',
-//   database: 'test',
-//   entities: [],
-//   synchronize: true,
-// };
+export const typeOrmConfig: TypeOrmModuleOptions = {
+  type: 'mysql',
+  host: process.env.DATABASE_HOST,
+  port: parseInt(process.env.DATABASE_PORT, 10),
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  logging: true,
+  entities: [User],
+  synchronize: true,
+};
