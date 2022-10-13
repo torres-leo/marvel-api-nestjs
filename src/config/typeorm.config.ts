@@ -1,5 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import 'dotenv';
+import { Favorite } from 'src/database/models/favorite.entity';
 import { User } from 'src/database/models/user.entity';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -9,7 +11,8 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  logging: true,
-  entities: [User],
+  entities: [User, Favorite],
   synchronize: true,
+  logging: true,
+  namingStrategy: new SnakeNamingStrategy(),
 };

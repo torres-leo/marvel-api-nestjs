@@ -1,5 +1,7 @@
+import { hashPassword } from 'src/utils';
 import { BaseEntity } from 'src/utils/Base.entity';
-import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
+import { Favorite } from './favorite.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -21,11 +23,20 @@ export class User extends BaseEntity {
 
   @BeforeInsert()
   checkPassword() {
-    if (this.password) this.password = this.password.trim();
+    if (this.password) {
+      this.password = hashPassword(this.password.trim());
+      return this.password;
+    }
   }
 
   @BeforeUpdate()
   updatePassword() {
-    if (this.password) this.password = this.password.trim();
+    if (this.password) {
+      this.password = hashPassword(this.password.trim());
+      return this.password;
+    }
   }
+
+  @OneToMany(() => Favorite, (entity) => entity.user)
+  favorites: Favorite[];
 }

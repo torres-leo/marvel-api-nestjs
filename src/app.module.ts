@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
+// import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { MysqlDataSource } from './config/data-source';
@@ -12,7 +12,7 @@ import { FavoritesModule } from './favorites/favorites.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(typeOrmConfig),
-    AuthModule,
+    // AuthModule,
     UserModule,
     CommonModule,
     FavoritesModule,

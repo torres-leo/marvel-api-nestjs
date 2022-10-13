@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
@@ -66,7 +65,6 @@ export class UserService {
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.preload({ id, ...updateUserDto });
-    // const user = await this.userRepository.update(id, updateUserDto);
 
     if (!user) throw new NotFoundException(`User with id:'${id}', Not Found`);
     try {
@@ -89,6 +87,5 @@ export class UserService {
   private handleExceptions(error: any) {
     if (error.errno === 1062) throw new BadRequestException(error.sqlMessage);
     this.logger.error(error);
-    throw new InternalServerErrorException('Error');
   }
 }
