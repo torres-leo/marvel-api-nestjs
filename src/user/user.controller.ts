@@ -25,7 +25,7 @@ export class UserController {
 
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
-    return this.userService.findAll();
+    return this.userService.findAll(paginationDto);
   }
 
   @Get(':id')
@@ -34,8 +34,11 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')

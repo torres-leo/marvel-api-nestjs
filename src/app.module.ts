@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 import { UserModule } from './user/user.module';
 import { CommonModule } from './common/common.module';
+import { FavoritesModule } from './favorites/favorites.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CommonModule } from './common/common.module';
     AuthModule,
     UserModule,
     CommonModule,
+    FavoritesModule,
   ],
   controllers: [],
   providers: [],

@@ -11,6 +11,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 import { User } from 'src/database/models/user.entity';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class UserService {
@@ -31,9 +32,13 @@ export class UserService {
     }
   }
 
-  findAll() {
+  findAll(paginationDto: PaginationDto) {
     try {
-      return this.userRepository.find({});
+      const { limit = 10, offset = 0 } = paginationDto;
+      return this.userRepository.find({
+        take: limit,
+        skip: offset,
+      });
     } catch (error) {
       return false;
     }
@@ -59,8 +64,17 @@ export class UserService {
     }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.preload({ id, ...updateUserDto });
+    // const user = await this.userRepository.update(id, updateUserDto);
+
+    if (!user) throw new NotFoundException(`User with id:'${id}', Not Found`);
+    try {
+      await this.userRepository.save(user);
+      return user;
+    } catch (error) {
+      this.handleExceptions(error);
+    }
   }
 
   async remove(id: string) {
