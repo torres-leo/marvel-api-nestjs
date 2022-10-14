@@ -7,6 +7,7 @@ import { typeOrmConfig } from './config/typeorm.config';
 import { UserModule } from './user/user.module';
 import { CommonModule } from './common/common.module';
 import { FavoritesModule } from './favorites/favorites.module';
+import { CharacterModule } from './character/character.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { FavoritesModule } from './favorites/favorites.module';
     UserModule,
     CommonModule,
     FavoritesModule,
+    CharacterModule,
   ],
   controllers: [],
   providers: [],

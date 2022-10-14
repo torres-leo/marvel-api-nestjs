@@ -9,7 +9,7 @@ export enum Category {
 
 @Entity()
 export class Favorite extends BaseEntity {
-  @Column('numeric')
+  @Column()
   marvelId: number;
 
   @Column({ type: 'enum', enum: Category, default: Category.CHARACTER })

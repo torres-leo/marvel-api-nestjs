@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
@@ -14,38 +19,67 @@ export class FavoritesService {
     private readonly favoriteRepository: Repository<Favorite>,
   ) {}
 
-  async create(createFavoriteDto: CreateFavoriteDto, userId: string) {
+  async create(createFavoriteDto: CreateFavoriteDto) {
     try {
-      const favorite = this.favoriteRepository.create({
-        ...createFavoriteDto,
-        userId,
-      });
+      const favorite = this.favoriteRepository.create(createFavoriteDto);
       await this.favoriteRepository.save(favorite);
 
       return favorite;
     } catch (error) {
-      this.handleExceptions(error);
+      console.log(error);
+      this.logger.error(error);
     }
   }
 
-  findAll() {
-    return `This action returns all favorites`;
+  async findAll(userId: string, category = '') {
+    let params = {};
+    if (category) params = { category };
+
+    try {
+      const favorites = await this.favoriteRepository.find({
+        where: { ...params, userId },
+      });
+      return favorites;
+    } catch (error) {
+      return false;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} favorite`;
+  async findOne(id: string) {
+    try {
+      const favorite = await this.favoriteRepository.findOneOrFail({
+        where: { id },
+      });
+      return favorite;
+    } catch (error) {
+      throw new NotFoundException(`Favorite with id:'${id}' Not Found`);
+    }
   }
 
-  update(id: number, updateFavoriteDto: UpdateFavoriteDto) {
-    return `This action updates a #${id} favorite`;
+  async update(id: string, updateFavoriteDto: UpdateFavoriteDto) {
+    const favorite = await this.favoriteRepository.preload({
+      id,
+      ...updateFavoriteDto,
+    });
+    if (!favorite)
+      throw new NotFoundException(`Favorite with id:'${id}', Not Found`);
+
+    try {
+      await this.favoriteRepository.save(favorite);
+      return favorite;
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} favorite`;
-  }
-
-  private handleExceptions(error: any) {
-    if (error.errno === 1062) throw new BadRequestException(error.sqlMessage);
-    this.logger.error(error);
+  async remove(id: string) {
+    try {
+      const favorite = await this.favoriteRepository.findOneOrFail({
+        where: { id },
+      });
+      await this.favoriteRepository.remove(favorite);
+    } catch (error) {
+      throw new NotFoundException(`Favorite with id:'${id}', Not Found`);
+    }
   }
 }
