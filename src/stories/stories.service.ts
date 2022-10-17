@@ -1,10 +1,9 @@
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
-
 @Injectable()
-export class CharacterService {
-  private readonly logger = new Logger('CharacterService');
+export class StoriesService {
+  private readonly logger = new Logger('StoriesService');
   constructor(private readonly httpService: HttpService) {}
 
   findAll(params: any): Observable<any> {
@@ -14,7 +13,7 @@ export class CharacterService {
         .pipe(map((response) => response.data));
       return data;
     } catch (error) {
-      throw new NotFoundException(`Petition Failed to get Characters`);
+      this.logger.error(error);
     }
   }
 
@@ -25,7 +24,7 @@ export class CharacterService {
         .pipe(map((response) => response.data));
       return data;
     } catch (error) {
-      throw new NotFoundException(`Character with id:'${id}' Not Found`);
+      throw new NotFoundException(`Comic with id:'${id}' Not Found`);
     }
   }
 
@@ -40,10 +39,10 @@ export class CharacterService {
     }
   }
 
-  findStories(id: number): Observable<any> {
+  findCharacters(id: number): Observable<any> {
     try {
       const data = this.httpService
-        .get(`/${id}/stories`)
+        .get(`/${id}/characters`)
         .pipe(map((response) => response.data));
       return data;
     } catch (error) {
