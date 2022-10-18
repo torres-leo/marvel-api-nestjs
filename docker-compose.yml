@@ -31,6 +31,8 @@ services:
       - /app/node_modules
     # command: >
     #   sh -c "yarn && yarn migration:run && yarn seed:run && yarn start"
+    # command: >
+    #   sh -c "yarn && yarn migration:run && yarn start"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     env_file:

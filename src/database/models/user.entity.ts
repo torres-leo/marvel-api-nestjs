@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { hashPassword } from 'src/utils';
 import { BaseEntity } from 'src/utils/Base.entity';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
@@ -9,6 +10,7 @@ export class User extends BaseEntity {
   username: string;
 
   @Column('text')
+  @Exclude()
   password: string;
 
   @BeforeInsert()
