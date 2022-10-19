@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { BaseEntity } from 'src/utils/Base.entity';
+import { BaseEntity } from '../../utils/Base.entity';
 import { User } from './user.entity';
 
 export enum Category {

@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
-import { hashPassword } from 'src/utils';
-import { BaseEntity } from 'src/utils/Base.entity';
+import { hashPassword } from '../../utils';
+import { BaseEntity } from '../../utils/Base.entity';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import { Favorite } from './favorite.entity';
 
