@@ -11,16 +11,16 @@ export class ServiceCreateSeed implements Seeder {
       .into(Favorite)
       .values([
         {
-          id: '9dc64209-936e-4206-9c32-f776c17aa2cf',
+          id: '22f6fe9f-9841-4990-a343-630d4bda4f5b',
           marvelId: 20,
           category: Category.CHARACTER,
-          userId: '9dc64209-936e-4206-9c32-f776c17aa2cf',
+          userId: '1b7dc58e-9c63-4bc0-b493-e0366ba28603',
         },
         {
-          id: '9dc64209-936e-4206-9c32-f776c17aa2cf',
+          id: '7a12863a-abd5-478b-afae-55f45da37ce4',
           marvelId: 21,
           category: Category.COMIC,
-          userId: '3dc64209-936e-4206-9c32-f776c17aa2bc',
+          userId: 'e05aae73-42e2-4354-bf9a-13b419570a61',
         },
       ])
       .execute();

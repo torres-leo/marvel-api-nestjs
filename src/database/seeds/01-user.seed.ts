@@ -12,13 +12,13 @@ export class ServiceCreateSeed implements Seeder {
       .into(User)
       .values([
         {
-          id: '9dc64209-936e-4206-9c32-f776c17aa2cf',
-          username: 'Leo',
+          id: '1b7dc58e-9c63-4bc0-b493-e0366ba28603',
+          username: 'leo',
           password: hashPassword('123456l'),
         },
         {
-          id: '3dc64209-936e-4206-9c32-f776c17aa2bc',
-          username: 'Bayola',
+          id: 'e05aae73-42e2-4354-bf9a-13b419570a61',
+          username: 'bayola',
           password: hashPassword('123456b'),
         },
       ])
