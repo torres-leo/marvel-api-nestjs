@@ -13,7 +13,9 @@ import {
 import { FavoritesService } from './favorites.service';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
 import { UpdateFavoriteDto } from './dto/update-favorite.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+// import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { User } from '../decorators/user.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('favorites')
@@ -21,13 +23,13 @@ export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
 
   @Post()
-  create(@Body() createFavoriteDto: CreateFavoriteDto) {
-    return this.favoritesService.create(createFavoriteDto);
+  create(@User() userId: string, @Body() createFavoriteDto: CreateFavoriteDto) {
+    return this.favoritesService.create(createFavoriteDto, userId);
   }
 
   @Get()
-  findAll(@Query() query: any) {
-    return this.favoritesService.findAll(query.userId, query.category);
+  findAll(@User() userId: string, @Query() query: any) {
+    return this.favoritesService.findAll(userId, query.category);
   }
 
   @Get(':id')

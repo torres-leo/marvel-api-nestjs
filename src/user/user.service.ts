@@ -37,6 +37,7 @@ export class UserService {
       return this.userRepository.find({
         take: limit,
         skip: offset,
+        relations: ['favorites'],
       });
     } catch (error) {
       return false;
@@ -45,7 +46,10 @@ export class UserService {
 
   async findOne(id: string) {
     try {
-      const user = await this.userRepository.findOneOrFail({ where: { id } });
+      const user = await this.userRepository.findOneOrFail({
+        where: { id },
+        relations: ['favorites'],
+      });
       return user;
     } catch (error) {
       throw new NotFoundException(`User with id:'${id}' Not Found`);

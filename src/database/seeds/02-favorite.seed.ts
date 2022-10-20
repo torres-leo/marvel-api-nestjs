@@ -12,7 +12,7 @@ export class ServiceCreateSeed implements Seeder {
       .values([
         {
           id: '22f6fe9f-9841-4990-a343-630d4bda4f5b',
-          marvelId: 20,
+          marvelId: 1009144,
           category: Category.CHARACTER,
           userId: '1b7dc58e-9c63-4bc0-b493-e0366ba28603',
         },

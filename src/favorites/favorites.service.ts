@@ -1,4 +1,10 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
@@ -14,15 +20,12 @@ export class FavoritesService {
     private readonly favoriteRepository: Repository<Favorite>,
   ) {}
 
-  async create(createFavoriteDto: CreateFavoriteDto) {
+  async create(createFavoriteDto: CreateFavoriteDto, userId: string) {
     try {
-      const favorite = this.favoriteRepository.create(createFavoriteDto);
-      await this.favoriteRepository.save(favorite);
-
-      return favorite;
+      await this.favoriteRepository.save({ ...createFavoriteDto, userId });
     } catch (error) {
       console.log(error);
-      this.logger.error(error);
+      throw new HttpException('Failed to add favorite', HttpStatus.NOT_FOUND);
     }
   }
 
